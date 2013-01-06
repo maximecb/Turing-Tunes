@@ -1,0 +1,139 @@
+<html>
+    <head>
+        <title id="pageTitle">Turing Tunes</title>
+        <meta name="keywords" content="javascript, html5, canvas, Alan Turing, Turing machine, sound, music, procedural, evolutionary">
+        <meta name="description" content="">
+        <script language="javascript" src="utils-html.js"></script>
+        <script language="javascript" src="utils-misc.js"></script>
+
+        <script language="javascript" src="music.js"></script>
+        <script language="javascript" src="graph.js"></script>
+        <script language="javascript" src="envelope.js"></script>
+        <script language="javascript" src="vanalog.js"></script>
+        <script language="javascript" src="sampling.js"></script>
+        <script language="javascript" src="mixer.js"></script>
+        <script language="javascript" src="piece.js"></script>
+
+        <script language="javascript" src="machine.js"></script>
+        <script language="javascript" src="main.js"></script>
+
+        <link rel=stylesheet href="stylesheet.css" type="text/css">
+    </head>
+    <body>
+
+        <a href="https://github.com/maximecb/Turing-Tunes">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="images/forkme.png" alt="Fork me on GitHub">
+        </a>
+
+        <div id="titleHeader">
+        Turing Tunes
+        </div>
+
+        <div style="margin-left:auto; margin-right:auto; text-align:center; width:650px;">
+            <form name="params">
+                <fieldset>
+                    <legend style="text-align:left">Machine options</legend>
+                    Number of states:
+                    <select id="numStates">
+                    </select>
+                    Number of symbols:
+                    <select id="numSymbols">
+                    </select>
+                    Filter out duds:
+                    <input id="filterDuds" type="checkbox" checked>
+                </fieldset>
+
+                <fieldset>
+                    <legend style="text-align:left">Musical scale</legend>
+                    Root note:
+                    <select id="scaleRoot">
+                    </select>
+                    Scale type:
+                    <select id="scaleType">
+                    </select>
+                </fieldset>
+
+                <fieldset id="octaves">
+                    <legend style="text-align:left">Octaves covered</legend>
+                    C2 <input type="checkbox" value="2">
+                    C3 <input type="checkbox" value="3">
+                    C4 <input type="checkbox" value="4">
+                    C5 (middle C) <input type="checkbox" value="5" checked>
+                    C6 <input type="checkbox" value="6">
+                    C7 <input type="checkbox" value="7">
+                </fieldset>
+
+                <fieldset id="durations">
+                    <legend style="text-align:left">Note durations</legend>
+                    Eight   <input type="checkbox" value="8">
+                    Quarter <input type="checkbox" value="4" checked>
+                    Half    <input type="checkbox" value="2">
+                    Whole   <input type="checkbox" value="2">
+                </fieldset>
+
+                <fieldset id="drumSamples">
+                    <legend style="text-align:left">Drum samples</legend>
+                </fieldset>
+
+                <fieldset>
+                    <legend style="text-align:left">Time signature</legend>
+                    Tempo:
+                    <input id="tempo" type="text" size="3" value="100">
+                    Time signature:
+                    <input id="timeSigNum" type="text" size="1" value="4">
+                    <input id="timeSigDenom" type="text" size="1" value="4">
+                </fieldset>
+
+                <fieldset>
+                  <legend style="text-align:left">Actions</legend>
+                  <button type="button" onClick="genMachine();">Generate</button>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <button type="button" onClick="stopAudio();">Stop Audio</button>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <button type="button" onClick="restartAudio();">Restart Audio</button>
+                </fieldset>
+            </form>
+
+            <div style="text-align:center;">
+                Click "generate" to produce a new random machine/tune.
+            </div>
+
+            <div style="height:10px;"></div>
+            <div align="center">
+                <canvas id="canvas" width="500" height="350">
+                Your browser does not support the canvas element.
+                </canvas>
+            </div>
+            <div style="height:10px;"></div>
+
+            <form>
+                <fieldset>
+                    <legend style="text-align:left">Share this online</legend>
+                    Give this creation a name:
+                    <input id="shareName" type="text" size="40" value="">
+                    <br><br>
+                    <button type="button" onClick="genURL();">Generate URL</button>
+                    <input id="shareURL" type="text" size="50" value="" readonly style="background:rgb(180,180,180);">
+                </fieldset>
+            </form>
+
+            <div style="text-align:justify;">
+            Turing Tunes uses randomly generated Turing machines to produce
+            sequences of musical notes, as a form of generative art. The musical
+            pieces generated are potentially infinite in length. You can create
+            your own pieces by pressing the "Generate" button above. The controls at
+            the top of the page can be used to adjust various parameters affecting
+            the way in which the music is generated. Don't know anything about
+            music theory? Don't worry: sensible defaults are provided.
+            Should you find a tune you like, and would like to share it online,
+            you can do so by copying the custom shareable URL above.
+            </div>
+        </div>
+
+        <div class="copyright">
+        Copyright &copy; 2013 Maxime Chevalier-Boisvert
+        </div>
+
+    </body>
+</html>
+
