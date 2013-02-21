@@ -56,15 +56,23 @@ function init()
     {
         console.log('parsing machine from hash string');
 
-        // TODO
+        // Extract the machine name
+        var str = location.hash.substr(1);
 
-        /*
-        program = Program.fromString(
-            location.hash.substr(1),
-            canvas.width,
-            canvas.height
-        );
-        */
+        print(str);
+
+        var args = str.split(',', 4);
+        var name = args[0];
+        piece.beatsPerMin = args[1];
+        piece.beatsPerBar = args[2];
+        piece.noteVal = args[3];
+        str = str.substr(args.toString().length+1);
+
+        setTitle(name);
+
+        machine = Machine.fromString(str);
+
+        playAudio();
     }
 }
 window.addEventListener("load", init, false);
@@ -90,6 +98,8 @@ var jsAudioNode = undefined;
 
 /// Audio generation event handler
 var genAudio = undefined;
+
+var drawInterv = undefined;
 
 var piece = undefined;
 
@@ -148,7 +158,7 @@ function initForm()
         opt.value = scale;
         scaleType.appendChild(opt);
 
-        if (scale == 'major pentatonic')
+        if (scale == 'blues')
             opt.selected = true;
     }
 
@@ -481,8 +491,6 @@ function testMachine(machine)
         return false;
     }
 
-    // TODO: Shannon entropy
-
     // Filter test passed
     return true;
 }
@@ -546,6 +554,28 @@ function playAudio()
     jsAudioNode = audioCtx.createJavaScriptNode(bufferSize, 2, 2);
     jsAudioNode.onaudioprocess = audioCB;
     jsAudioNode.connect(audioCtx.destination);
+
+    function drawTrack()
+    {
+        piece.drawTrack(
+            leadTrack, 
+            canvas.ctx, 
+            0, 
+            0, 
+            canvas.width, 
+            canvas.height,
+            
+            //Note('C2'),
+            //6
+ 
+            Note('C5'),
+            2,
+
+            2 * piece.beatsPerBar
+        );
+
+        // TODO: draw drum track too
+    }
 
     //drawInterv = setInterval(drawTrack, 100);
 }
@@ -625,8 +655,12 @@ function genURL()
         error('Invalid name');
 
     // Generate the encoding string
-    var coding = machine.toString();
-    coding = name + ',' + coding;
+    var coding = '';
+    coding += name + ',';
+    coding += piece.beatsPerMin + ',';
+    coding += piece.beatsPerBar + ',';
+    coding += piece.noteVal + ',';
+    coding += machine.toString();
 
     // Set the sharing URL
     var shareURL = (

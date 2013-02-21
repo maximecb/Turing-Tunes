@@ -29,6 +29,10 @@
         Turing Tunes
         </div>
 
+        <div style="text-align:center; margin: 5px;">
+            Click "generate" to produce a new random machine/tune.
+        </div>
+
         <div style="margin-left:auto; margin-right:auto; text-align:center; width:650px;">
             <form name="params">
                 <fieldset>
@@ -57,15 +61,15 @@
                     <legend style="text-align:left">Octaves covered</legend>
                     C2 <input type="checkbox" value="2">
                     C3 <input type="checkbox" value="3">
-                    C4 <input type="checkbox" value="4">
+                    C4 <input type="checkbox" value="4" checked>
                     C5 (middle C) <input type="checkbox" value="5" checked>
                     C6 <input type="checkbox" value="6">
-                    C7 <input type="checkbox" value="7">
+                    C7 <input type="checkbox" value="7" checked>
                 </fieldset>
 
                 <fieldset id="durations">
                     <legend style="text-align:left">Note durations</legend>
-                    Eight   <input type="checkbox" value="8">
+                    Eight   <input type="checkbox" value="8" checked>
                     Quarter <input type="checkbox" value="4" checked>
                     Half    <input type="checkbox" value="2">
                     Whole   <input type="checkbox" value="2">
@@ -94,17 +98,11 @@
                 </fieldset>
             </form>
 
-            <div style="text-align:center;">
-                Click "generate" to produce a new random machine/tune.
-            </div>
-
-            <div style="height:10px;"></div>
-            <div align="center">
+            <div style="display:none;" align="center">
                 <canvas id="canvas" width="500" height="350">
                 Your browser does not support the canvas element.
                 </canvas>
             </div>
-            <div style="height:10px;"></div>
 
             <form>
                 <fieldset>

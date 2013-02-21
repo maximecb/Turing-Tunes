@@ -308,25 +308,36 @@ Piece.prototype.drawTrack = function (
     width, 
     height,
     minNote,
-    numOcts
+    numOcts,
+    numBeats
 )
 {
     // Compute the bottom-right corner coordinates
     var botX = topX + width;
     var botY = topY + height;
 
-    // Get the last event time
-    var maxTime = track.endTime();
 
-    // Compute the number of beats
-    var numBeats = Math.ceil((maxTime / 60) * this.beatsPerMin);
+
+
 
     // Compute the total time for the beats
     var totalTime = (numBeats / this.beatsPerMin) * 60;
 
-    //console.log('max time  : ' + maxTime);
-    //console.log('num beats : ' + numBeats);
-    //console.log('total time: ' + totalTime);
+    var minTime = Math.max(0, this.playTime - (totalTime / 2));
+
+    var maxTime = Math.min(minTime + totalTime, track.endTime());
+
+    /*
+    console.log(totalTime);
+    console.log(minTime);
+    console.log(maxTime);
+    */
+
+
+
+
+
+
 
     var minNoteNo = Math.floor(minNote.noteNo / NOTES_PER_OCTAVE) * NOTES_PER_OCTAVE;
 
@@ -347,6 +358,7 @@ Piece.prototype.drawTrack = function (
     canvasCtx.fillStyle = "grey"
     canvasCtx.fillRect(topX, topY, width, height);
 
+    // Fill the piano area with white
     canvasCtx.fillStyle = "white"
     canvasCtx.fillRect(topX, topY, pianoWidth, height);
 
@@ -416,6 +428,17 @@ Piece.prototype.drawTrack = function (
         canvasCtx.stroke();
     }
 
+
+
+    /*
+    var minTimeBeat = this.beatTime(minTime);
+    // beatWidth
+
+    var firstBeatLine = minBeatTime + 
+    */
+
+
+    /*
     // Draw the vertical beat separation lines
     for (var i = 1; i < numBeats; ++i)
     {
@@ -434,6 +457,15 @@ Piece.prototype.drawTrack = function (
         canvasCtx.closePath();
         canvasCtx.stroke();
     }   
+    */
+
+
+
+    // TODO: method for binary search
+
+    // TODO: method to find corresponding note off
+
+
 
     // For each track event
     for (var i = 0; i < track.events.length; ++i)
@@ -447,7 +479,6 @@ Piece.prototype.drawTrack = function (
             var startTime = event.time;
 
             // Try to find the note end time
-            //var endTime = startTime + (60 / this.beatsPerMin);
             var endTime = undefined;
             for (var j = i + 1; j < track.events.length; ++j)
             {
@@ -497,6 +528,11 @@ Piece.prototype.drawTrack = function (
         }
     }
 
+
+
+
+
+    /*
     // If playback is ongoing
     if (this.playTime !== 0 && maxTime !== 0)
     {
@@ -512,6 +548,11 @@ Piece.prototype.drawTrack = function (
         canvasCtx.closePath();
         canvasCtx.stroke();
     }
+    */
+
+
+
+
 }
 
 /**

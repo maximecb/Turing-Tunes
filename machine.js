@@ -131,45 +131,75 @@ Machine.prototype.toString = function ()
 {
     var str = '';
 
-    // TODO
-    //for (var i = 0; i < this.table.length; ++i)
-    //    str += ',' + this.table[i];
+    str += this.outSymbols.length;
+    for (var i = 0; i < this.outSymbols.length; ++i)
+    {
+        var sym = this.outSymbols[i];
+        str += ',' + sym.note;
+        str += ',' + sym.frac;
+        str += ',' + ((sym.drumNote !== null)? sym.drumNote:'');
+    }
+    str += ',';
+
+    str += this.numStates + ',' + this.numSymbols + ',' + this.memory.length;
+    for (var i = 0; i < this.table.length; ++i)
+    {
+        str += ',' + this.table[i];
+    }
+
+    //print(str);
 
     return str;
 }
 
 Machine.fromString = function (str)
 {
-    // TODO
-    /*
-    console.log(str);
+    function extract()
+    {
+        var subStr = str.split(',', 1)[0];
+        str = str.substr(subStr.length+1);
+        return subStr;
+    }
 
-    var nums = str.split(',').map(Number);
+    print('str: ' + str);
 
-    numStates  = nums[0];
-    numSymbols = nums[1];
+    var numSymbols = parseInt(extract());
 
-    console.log('num states: ' + numStates);
-    console.log('num symbols: ' + numSymbols);
+    print('numSymbols: ' + numSymbols);
 
-    assert (
-        numStates > 0 &&
-        numSymbols > 0,
-        'invalid input string'
+    var outSymbols = new Array(numSymbols);
+    for (var i = 0; i < outSymbols.length; ++i)
+    {
+        var note = extract();
+        var frac = extract();
+        var drumNote = extract();
+
+        //print(i + ' / ' + outSymbols.length);
+
+        outSymbols[i] = {
+            note: Note(note),
+            frac: parseFloat(frac),
+            drumNote: drumNote? parseInt(drumNote):null
+        };
+
+        print(outSymbols[i].frac);
+    }
+
+    var numStates  = parseInt(extract());
+    var numSymbols = parseInt(extract());
+    var memSize    = parseInt(extract());
+
+    var machine = new Machine(
+        numStates, 
+        numSymbols,
+        outSymbols,
+        memSize
     );
 
-    var prog = new Machine(numStates, numSymbols, mapWidth, mapHeight);
+    for (var i = 0; i < machine.table.length; ++i)
+        machine.table[i] = parseInt(extract());
 
-    assert (
-        prog.table.length === nums.length - 2,
-        'invalid transition table length'
-    );
-
-    for (var i = 0; i < prog.table.length; ++i)
-        prog.table[i] = nums[i+2];
-
-    return prog;
-    */
+    return machine;
 }
 
 /**

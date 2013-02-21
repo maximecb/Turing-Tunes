@@ -1,0 +1,107 @@
+Turing-Tunes
+------------
+
+TODO: canvas visualization, streaming piano roll
+- Second roll for drum samples?
+
+TODO: mutate button
+
+TODO: back button
+- history list
+
+TODO: show iteration count, memory position?
+
+TODO: publish on github
+  git remote add origin git@github.com:maximecb/Turing-Tunes.git
+  git push -u origin master
+
+
+
+
+
+[DONE] TODO: shareable URL encoding
+- Encoding needs to specify notes used, note lengths for output symbols
+
+[DONE] TODO: create git repo, readme file
+
+[DONE] TODO: generate notes with drum samples
+- Must have null note, pause
+
+[DONE] TODO: drum samples, form generation with list
+
+[DONE] TODO: fix synth glitches, improve patch
+
+[DONE] TODO: basic filtering, log filtering results
+- Run machine for many iterations (10K?). If no output, or less than 10 symbols, filter out.
+- Compute Shannon entropy of output stream
+- Loop detection? Look for loops in notes generated
+  - Repeats of current note
+
+[DONE] TODO: name validation
+
+[DONE] TODO: generate notes on track as needed, based on current playback time
+- Never actually needs to terminate!
+
+[DONE] TODO: note generation function?
+
+[DONE] TODO: generate notes from root note, scale type, octaves
+- Log number of notes generated
+
+[DONE] TODO: fix midi note numbers... don't want to have octave -1
+
+[DONE] TODO: octave selection instead of octaves covered
+
+[DONE] TODO: improve gen URL feature, add button to force naming
+
+[DONE] TODO: add num octaves to form
+
+[DONE] TODO: setup synth, audio generation code
+
+[DONE] TODO: shareable URL on page layout
+- Name your piece
+
+[DONE] TODO: fill in form options
+- make defaults selected
+
+[DONE] TODO: revise intro paragraph, see Turing-Drawings
+
+[DONE] TODO: basic form layout, generative options
+- Musical scale (default pentatonic)
+- Possible notes (checkboxes)
+  - choosing a musical scale resets this
+- Number of octaves (default one)
+- Note lengths (default 1/4 or 1/8 only)
+
+[DONE] TODO: Machine class
+- One memory tape, large size, loops over
+  - e.g.: 64K or 256K cells
+
+[DONE] TODO: import music code
+
+-------------------------------------------------------------------------
+
+Music tape:
+- Symbols are musical notes or blanks
+  - Never appear on the left-side of a transition rule
+- Can have multiple note or blank lengths
+- Can never erase, action is either write (W) or noop (N)
+
+Working tape:
+- Working memory for the system
+- Left and Right actions (L/R)
+
+N states
+K mem symbols
+S output symbols
+2 mem actions
+2 output actions
+
+N x K -> N x K x S x 2 x 2
+- 8 states x 8 mem symbols means 64 table entries of 5 values each
+- If output action is N, keep 
+
+def entropy_ideal(length):
+    "Calculates the ideal Shannon entropy of a string with given length"
+    prob = 1.0 / length
+    return -1.0 * length * prob * math.log(prob) / math.log(2.0)
+
