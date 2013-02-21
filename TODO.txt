@@ -11,13 +11,10 @@ TODO: back button
 
 TODO: show iteration count, memory position?
 
-TODO: publish on github
-  git remote add origin git@github.com:maximecb/Turing-Tunes.git
-  git push -u origin master
 
 
 
-
+[DONE] TODO: publish on github
 
 [DONE] TODO: shareable URL encoding
 - Encoding needs to specify notes used, note lengths for output symbols
