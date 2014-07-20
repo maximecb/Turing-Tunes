@@ -63,7 +63,7 @@ function Sample(url)
     {
         try
         {
-            context.decodeAudioData(
+            audioCtx.decodeAudioData(
                 xhr.response,
                 function (audioBuffer)
                 {
