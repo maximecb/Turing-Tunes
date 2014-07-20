@@ -76,6 +76,7 @@ function Sample(url)
         catch (e)
         {
             console.error('failed to load "' + url + '"');
+            console.error(e.toString());
         }
 
         //console.log('loaded sample "' + url + '" (' + that.buffer.length + ')');
