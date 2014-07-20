@@ -59,18 +59,22 @@ function Sample(url)
     xhr.responseType = "arraybuffer";
 
     var that = this;
-    xhr.onload = function() 
+    xhr.onload = function()
     {
         try
         {
-            var audioBuffer = audioCtx.createBuffer(xhr.response, true);
-            var f32buffer = audioBuffer.getChannelData(0);
+            context.decodeAudioData(
+                xhr.response,
+                function (audioBuffer)
+                {
+                    var f32buffer = audioBuffer.getChannelData(0);
+                    var f64buffer = new Float64Array(f32buffer.length);
+                    for (var i = 0; i < f32buffer.length; ++i)
+                        f64buffer[i] = f32buffer[i];
 
-            var f64buffer = new Float64Array(f32buffer.length);
-            for (var i = 0; i < f32buffer.length; ++i)
-                f64buffer[i] = f32buffer[i];
-
-            that.buffer = f64buffer;
+                    that.buffer = f64buffer;
+                }
+            );
         }
 
         catch (e)
