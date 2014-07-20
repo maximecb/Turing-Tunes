@@ -551,7 +551,7 @@ function playAudio()
     }
 
     // Create a JS audio node and connect it to the destination
-    jsAudioNode = audioCtx.createJavaScriptNode(bufferSize, 2, 2);
+    jsAudioNode = audioCtx.createScriptProcessor(bufferSize, 2, 2);
     jsAudioNode.onaudioprocess = audioCB;
     jsAudioNode.connect(audioCtx.destination);
 
