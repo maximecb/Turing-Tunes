@@ -422,7 +422,7 @@ function genMachine()
 
         // Create a new random machine
         machine = new Machine(
-            numStates, 
+            numStates,
             numSymbols,
             noteVals,       // Output symbols
             50000           // Memory size
@@ -508,76 +508,77 @@ function playAudio()
     if (jsAudioNode !== undefined)
         stopAudio()
 
-    // Reset the machine state
-    machine.reset();
-
-    // Clear the instrument tracks
-    leadTrack.clear();
-    drumTrack.clear();
-
-    // Set the playback time on the piece to 0 (start)
-    piece.setTime(0);
-
-    var nextNoteBeat = 0;
-
-    console.log('first beat time: ' + piece.beatTime(nextNoteBeat));
-
-    function audioCB(evt)
+    audioCtx.resume().then(function ()
     {
-        // Generate audio data
-        genAudio(evt);
+        // Reset the machine state
+        machine.reset();
 
-        for (var i = 0; i < ITRS_PER_NOTE; ++i)
+        // Clear the instrument tracks
+        leadTrack.clear();
+        drumTrack.clear();
+
+        // Set the playback time on the piece to 0 (start)
+        piece.setTime(0);
+
+        var nextNoteBeat = 0;
+
+        console.log('first beat time: ' + piece.beatTime(nextNoteBeat));
+
+        function audioCB(evt)
         {
-            if (piece.beatTime(nextNoteBeat) > piece.playTime + 1)
-                return;
+            // Generate audio data
+            genAudio(evt);
 
-            outSym = machine.iterate();
+            for (var i = 0; i < ITRS_PER_NOTE; ++i)
+            {
+                if (piece.beatTime(nextNoteBeat) > piece.playTime + 1)
+                    return;
 
-            if (outSym === null)
-                continue;
+                outSym = machine.iterate();
 
-            piece.makeNote(leadTrack, nextNoteBeat, outSym.note, outSym.frac);
+                if (outSym === null)
+                    continue;
 
-            if (outSym.drumNote !== null)
-                piece.makeNote(drumTrack, nextNoteBeat, outSym.drumNote, outSym.frac);
+                piece.makeNote(leadTrack, nextNoteBeat, outSym.note, outSym.frac);
 
-            nextNoteBeat += piece.noteLen(outSym.frac);
+                if (outSym.drumNote !== null)
+                    piece.makeNote(drumTrack, nextNoteBeat, outSym.drumNote, outSym.frac);
 
-            //console.log('mem pos: ' + machine.memPos);
-            //console.log('itr count: ' + machine.itrCount);
-            //console.log('next note beat: ' + nextNoteBeat);
+                nextNoteBeat += piece.noteLen(outSym.frac);
+
+                //console.log('mem pos: ' + machine.memPos);
+                //console.log('itr count: ' + machine.itrCount);
+                //console.log('next note beat: ' + nextNoteBeat);
+            }
         }
-    }
 
-    // Create a JS audio node and connect it to the destination
-    jsAudioNode = audioCtx.createScriptProcessor(bufferSize, 2, 2);
-    jsAudioNode.onaudioprocess = audioCB;
-    jsAudioNode.connect(audioCtx.destination);
+        // Create a JS audio node and connect it to the destination
+        jsAudioNode = audioCtx.createScriptProcessor(bufferSize, 2, 2);
+        jsAudioNode.onaudioprocess = audioCB;
+        jsAudioNode.connect(audioCtx.destination);
 
-    function drawTrack()
-    {
-        piece.drawTrack(
-            leadTrack, 
-            canvas.ctx, 
-            0, 
-            0, 
-            canvas.width, 
-            canvas.height,
-            
-            //Note('C2'),
-            //6
- 
-            Note('C5'),
-            2,
+        function drawTrack()
+        {
+            piece.drawTrack(
+                leadTrack,
+                canvas.ctx,
+                0,
+                0,
+                canvas.width,
+                canvas.height,
 
-            2 * piece.beatsPerBar
-        );
+                //Note('C2'),
+                //6
 
-        // TODO: draw drum track too
-    }
+                Note('C5'),
+                2,
 
-    //drawInterv = setInterval(drawTrack, 100);
+                2 * piece.beatsPerBar
+            );
+
+            // TODO: draw drum track too
+        }
+    });
 }
 
 function stopAudio()
@@ -595,9 +596,6 @@ function stopAudio()
     // Disconnect the audio node
     jsAudioNode.disconnect();
     jsAudioNode = undefined;
-
-    // Clear the drawing interval
-    //clearInterval(drawInterv);
 }
 
 /**
@@ -635,7 +633,7 @@ Validate a name string
 function validName(name)
 {
     return (
-        name.length <= 40 &&        
+        name.length <= 40 &&
         /^[\w ]+$/.test(name)
     );
 }
@@ -672,4 +670,3 @@ function genURL()
     // Set the page title
     setTitle(name);
 }
-
