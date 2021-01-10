@@ -241,11 +241,6 @@ function initAudio()
     lead.oscs[1].volume = 1;
     lead.oscs[1].env = lead.oscs[0].env;
 
-    //lead.oscs[2].type = 'sine';
-    //lead.oscs[2].detune = -2400;
-    //lead.oscs[2].volume = 1;
-    //lead.oscs[2].env = lead.oscs[0].env;
-
     lead.cutoff = 0.3;
     lead.resonance = 0;
     lead.filterEnv.a = 0;
@@ -497,6 +492,8 @@ function testMachine(machine)
 
 function playAudio()
 {
+    console.log('playAudio()');
+
     // Size of the audio generation buffer
     var bufferSize = 2048;
 
@@ -556,33 +553,13 @@ function playAudio()
         jsAudioNode = audioCtx.createScriptProcessor(bufferSize, 2, 2);
         jsAudioNode.onaudioprocess = audioCB;
         jsAudioNode.connect(audioCtx.destination);
-
-        function drawTrack()
-        {
-            piece.drawTrack(
-                leadTrack,
-                canvas.ctx,
-                0,
-                0,
-                canvas.width,
-                canvas.height,
-
-                //Note('C2'),
-                //6
-
-                Note('C5'),
-                2,
-
-                2 * piece.beatsPerBar
-            );
-
-            // TODO: draw drum track too
-        }
     });
 }
 
 function stopAudio()
 {
+    console.log('stopAudio()');
+
     // If audio is disabled, stop
     if (audioCtx === undefined)
         return;
