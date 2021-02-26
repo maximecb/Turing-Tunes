@@ -7,7 +7,7 @@ Requires a browser with Web Audio API support such as Chrome. This project
 is distributed under a modified BSD license.
 
 You can try Turing Tunes at the following URL:
-[http://maximecb.github.com/Turing-Tunes/](http://maximecb.github.com/Turing-Tunes/)
+[http://maximecb.github.io/Turing-Tunes/](http://maximecb.github.io/Turing-Tunes/)
 
 Below is a sample of the music Turing Tunes can generate:
 
